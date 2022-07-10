@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('survey_questions', function (Blueprint $table) {
             $table->id();
+            $table->string('type', 45);
+            $table->string('question', 2000);
+            $table->longtext('data')->nullable();
+            $table->foreignIdFor(\App\Models\Survey::class, 'survey_id');
             $table->timestamps();
         });
     }
