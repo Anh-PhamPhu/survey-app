@@ -35,6 +35,7 @@ class AuthController extends Controller
     }
 
     public function login(Request $request){
+
         $credentials = $request->validate([
             'email' => 'required|email|string|exists:users,email',
             'password' => [
@@ -46,6 +47,7 @@ class AuthController extends Controller
         $remember = $credentials['remember'] ?? false;
         unset($credentials['remember']);
 
+        
         if(!Auth::attempt($credentials, $remember)){
             return response([
                 'error' => 'The Provided credentials are not correct'
@@ -58,6 +60,18 @@ class AuthController extends Controller
         return response([
             'user' => $user,
             'token' => $token
+        ]);
+    }
+
+    public function logout(){
+
+        /** @var User $user */
+        $user = Auth::user();
+        // remove the token was used to authenticate the current request
+        $user->currentAccessToken()->delete();
+
+        return response([
+            'succes' => true
         ]);
     }
 }
