@@ -1,12 +1,51 @@
+import { normalizeStyle } from "vue";
 import { createStore } from "vuex";
 import axiosClient from '../../axios';
 
+const tmpSurveys ={
+    id: 100,
+    title: "Hello Survey",
+    slug: "Hello-Survey",
+    status: "draft",
+    image:
+        "/src/assets/logo.png",
+    description:
+        "Hello",
+    created_at: "2022-07-01 11:00:00",
+    updated_at: "2022-07-01 11:00:00",
+    expire_at: "2022-07-01 11:00:00",
+    questions: [
+        {
+            id: 1,
+            type: "select",
+            question: "This is question is test",
+            description: null,
+            data: {
+                options: [
+                    {
+                        uuid: "random",
+                        text: "USA"
+                    },
+                    {
+                        uuid: "random1",
+                        text: "Georgia"
+                    },
+                    {
+                        uuid: "random2",
+                        text: "Germany"
+                    }
+                ]
+            },
+        },
+    ],
+}
 const store = createStore({
     state: {
         user: {
             data: {},
             token: sessionStorage.getItem('TOKEN'),
-        }
+        },
+        surveys: [...tmpSurveys],
     },
     getters: {},
     actions: {
