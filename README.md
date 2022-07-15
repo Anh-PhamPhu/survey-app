@@ -1,18 +1,35 @@
-# survey-app
+# Survey-app
 
 ## Backend : Laravel - FrontEnd : VueJs + Tailwindcss 
-<img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="200" >
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/1200px-Vue.js_Logo_2.svg.png" width="200">
-<img src="https://cdn-ak.f.st-hatena.com/images/fotolife/m/m-ushijima-lvgs/20211029/20211029182627.png" width="200">
+<table>
+    <tr>
+        <td>
+            <a href="https://laravel.com"><img src="https://i.imgur.com/pBNT1yy.png" /></a>
+        </td>
+        <td>
+            <a href="https://vuejs.org/"><img src="https://i.imgur.com/BxQe48y.png" /></a>
+        </td>
+        <td>
+            <a href="https://tailwindcss.com/"><img src="https://i.imgur.com/wdYXsgR.png" /></a>
+        </td>
+        <td>
+            <img src="https://i.imgur.com/Kp5kTUp.png"/>
+        </td>
+    </tr>
+</table> 
 
-## Clone project
-
+## Requirements
+You need to have PHP version **8.0** or above. Node.js version **12.0** or above.
+## Installation
+### Back-end
 ```
 $ cd survey-app
 $ cd laravel-vue-survey
 $ composer install
 $ composer update
 ```
+### Front-end
+
 ```
 $ cd survey-app
 $ cd vue
