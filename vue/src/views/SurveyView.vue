@@ -167,6 +167,42 @@
                 <!--/ Status -->
             </div>
             <!-- / Survey Fields -->
+            <!-- Question Button  -->
+            <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+                <h3 class="text-2xl font-semibold flex items-center justify-between">
+                    Questions
+
+                    <!-- Add question  -->
+                    <button
+                        type="button"
+                        @click="addQuestion()"
+                        class="flex items-center text-sm py-1 px-4 rounded-sm text-white bg-gray-600 hover:bg-gray-700"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                        Add question
+                    </button>
+                    <!-- /Add question  -->
+
+                </h3>
+                <div v-if="!model.questions.length" class="text-center text-gray-600">
+                    You don't have any questions created 
+                </div>
+                <div v-for="(question, index) in model.questions" :key="question.id">
+                    <QuestionEditor
+                        :question="question"
+                        :index="index"
+                        @change="questionChange"
+                        @addQuestion="addQuestion"
+                        @deleteQuestion="deleteQuestion"
+                    />
+                </div>
+            </div>
+            <!-- /Question Button  -->
+
+           
+            <!-- Save Button  -->
             <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
                 <button 
                     type="submit"
@@ -192,6 +228,7 @@
                     Save
                 </button>
             </div>
+            <!-- /Save Button  -->
         </div>
     </form>
 </PageComponent> 
@@ -202,6 +239,9 @@ import store from "../store";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import PageComponent from '../components/PageComponent.vue';
+import QuestionEditor from '../components/editor/QuestionEditor.vue';
+import { v4 as uuidv4 } from "uuid";
+
 
 const route = useRoute();
 
@@ -217,5 +257,34 @@ let model= ref({
 
 if(route.params.id){
     model.value = store.state.surveys.find((s) => s.id === parseInt(route.params.id));
+}
+
+function addQuestion(index){
+    const newQuestion = {
+        id: uuidv4(),
+        type: "text",
+        question: "",
+        description: null,
+        data: {}
+    }
+
+    model.value.questions.splice(index, 0, newQuestion);
+}
+
+function deleteQuestion(question){
+    model.value.questions = model.value.questions.filter(
+        (q) => {
+            return q !== question;
+        }
+    )
+}
+
+function questionChange(question){
+    model.value.questions = model.value.questions.map((q) => {
+        if(q.id === question.id){
+            return JSON.parse(JSON.stringify(question));
+        }
+        return q;
+    })
 }
 </script>
