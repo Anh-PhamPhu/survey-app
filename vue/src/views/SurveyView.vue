@@ -19,8 +19,8 @@
                     </label>
                     <div class="mt-1 flex items-center">
                         <img
-                            v-if="model.image"
-                            :src="model.image"
+                            v-if="model.image_url"
+                            :src="model.image_url"
                             :alt="model.title"
                             class="w-64 h48 object-cover"
                         >
@@ -66,6 +66,7 @@
                         >
                             <input 
                                 type="file"
+                                @change="onImageChosse"
                                 class="
                                     absolute
                                     left-0
@@ -258,7 +259,17 @@ let model= ref({
 if(route.params.id){
     model.value = store.state.surveys.find((s) => s.id === parseInt(route.params.id));
 }
+function onImageChosse(ev){
+    const file = ev.target.files[0];
 
+    const reader = new FileReader();
+    reader.onload = () => {
+        model.value.image = reader.result;
+
+        model.value.image_url = reader.result;
+    };
+    reader.readAsDataURL(file);
+}
 function addQuestion(index){
     const newQuestion = {
         id: uuidv4(),
