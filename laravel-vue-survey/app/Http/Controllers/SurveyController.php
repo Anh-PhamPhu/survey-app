@@ -24,7 +24,7 @@ class SurveyController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        return SurveyResource::collection(Survey::where('user_id', $user->id)->paginate(50));
+        return SurveyResource::collection(Survey::where('user_id', $user->id)->paginate(5));
     }
 
     /**
@@ -116,7 +116,7 @@ class SurveyController extends Controller
                 $this->updateQuestion($question, $questionMap[$question->id]);
             }
         }
-        
+
         return new SurveyResource($survey);
     }
 
