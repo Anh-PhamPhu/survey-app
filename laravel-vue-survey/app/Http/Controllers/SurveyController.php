@@ -67,6 +67,17 @@ class SurveyController extends Controller
         return new SurveyResource($survey);
     }
 
+     /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Survey  $survey
+     * @return \Illuminate\Http\Response
+     */
+    public function showForGuest(Survey $survey)
+    {
+        return new SurveyResource($survey);
+    }
+
     /**
      * Update the specified resource in storage.
      *
