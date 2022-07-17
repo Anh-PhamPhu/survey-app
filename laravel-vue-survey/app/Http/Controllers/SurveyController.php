@@ -99,6 +99,10 @@ class SurveyController extends Controller
         }
 
         $survey->delete();
+        if($survey->image){
+            $absolutePath = public_path($survey->image);
+            File::delete($absolutePath);
+        }
         return response('Deleted', 204);
     }
 
@@ -130,7 +134,7 @@ class SurveyController extends Controller
             File::makeDirectory($absolutePath, 0755, true);
         }
         file_put_contents($relativePath, $image);
-        
+
         return $relativePath;
     }
 }
