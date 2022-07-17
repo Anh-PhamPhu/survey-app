@@ -7,7 +7,7 @@
           </h1>
         </div>
     </template>
-    <!-- <pre>{{model}}</pre> -->
+    <div v-if="surveyLoading" class="flex justify-center">Loading...</div>
     <form @submit.prevent="saveSurvey">
         <div class="shadow sm:rounded-md sm:overflow-hidden">
             <!-- Survey Fiels -->
@@ -126,7 +126,7 @@
                             border border-gray-300 
                             rounded-md
                         "
-                        placeholder="Decribe your"
+                        placeholder="Decribe your survey"
                     >
                     </textarea>
                 </div>
@@ -226,7 +226,7 @@
                         focus:ring-indigo-500
                     "
                 >
-                    Save
+                    {{ model.id ? 'Save' : "Create" }}
                 </button>
             </div>
             <!-- /Save Button  -->
@@ -237,7 +237,7 @@
 
 <script setup>
 import store from "../store";
-import { ref } from "vue";
+import { ref, watch, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import PageComponent from '../components/PageComponent.vue';
 import QuestionEditor from '../components/editor/QuestionEditor.vue';
@@ -245,20 +245,32 @@ import { v4 as uuidv4 } from "uuid";
 
 const router = useRouter();
 const route = useRoute();
-
+const surveyLoading = computed(() => store.state.currentSurvey.loading);
 //Create empty survey
 let model= ref({
     title: "",
+    image_url: null,
     status: false,
     description: null,
     image: null,
     expire_date: null,
     questions: [],
 })
+// Watch to current survey data change and when this happens we update local
+watch(
+    () => store.state.currentSurvey.data,
+    (newVal, oldVal) => {
+        model.value = {
+            ...JSON.parse(JSON.stringify(newVal)),
+            status: newVal.status !== "draft",
+        };
+    }
+);
 
-if(route.params.id){
-    model.value = store.state.surveys.find((s) => s.id === parseInt(route.params.id));
+if (route.params.id) {
+  store.dispatch("getSurvey", route.params.id);
 }
+
 function onImageChosse(ev){
     const file = ev.target.files[0];
 
@@ -270,6 +282,7 @@ function onImageChosse(ev){
     };
     reader.readAsDataURL(file);
 }
+
 function addQuestion(index){
     const newQuestion = {
         id: uuidv4(),
