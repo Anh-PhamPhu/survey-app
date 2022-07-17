@@ -27,6 +27,9 @@ const store = createStore({
     },
     getters: {},
     actions: {
+        saveSurveyAnswer({commit}, {surveyId, answers}){
+            return axiosClient.post(`/survey/${surveyId}/answer`, {answers})
+        },
         getSurveyBySlug({commit}, slug){
             commit("setCurrentSurveyLoading", true);
             return axiosClient.get(`/survey-by-slug/${slug}`)

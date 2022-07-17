@@ -96,7 +96,14 @@ if(question.type === "checkbox"){
     model = ref({});
 }
 
+function onCheckboxChange($event){
+    const selectedOptions = [];
+    for(let text in model.vale){
+        if(model.vale[text]){
+            selectedOptions.push(text);
+        }
+    }
+
+    emits("update:modelValue", selectedOptions);
+}
 </script>
-<style lang="">
-    
-</style>

@@ -59,9 +59,8 @@ function submitSurvey() {
     console.log(JSON.stringify(answers.value, undefined, 2));
     store.dispatch("saveSurveyAnswer", {
         surveyId: survey.value.id,
-        answer: answers.value
-    })
-    .then((res) => {
+        answers: answers.value
+    }).then((res) => {
         if(res.status === 201){
             surveyFinished.value = true;
         }
