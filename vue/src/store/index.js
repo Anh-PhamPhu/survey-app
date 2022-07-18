@@ -18,6 +18,10 @@ const store = createStore({
             links: [],
             data: []
         },
+        dashboard: {
+            loading: false,
+            data: {}
+        },
         questionTypes: ["text", "select", "radio", "checkbox", "textarea"],
         notification: {
             show: false,
@@ -27,6 +31,19 @@ const store = createStore({
     },
     getters: {},
     actions: {
+        getDashboardData({commit}){
+            commit('dashboardLoading', true);
+            return axiosClient.get('/dashboard')
+                                .then((res) => {
+                                    commit('dashboardLoading', false);
+                                    commit('setDashboardData', res.data);
+                                    return res;
+                                })
+                                .catch((err) => {
+                                    commit("dashboardLoading", false);
+                                    return err;
+                                })
+        },
         saveSurveyAnswer({commit}, {surveyId, answers}){
             return axiosClient.post(`/survey/${surveyId}/answer`, {answers})
         },
@@ -115,6 +132,12 @@ const store = createStore({
         }
     },
     mutations: {
+        dashboardLoading: (state, loading) => {
+            state.dashboard.loading = loading;
+        },
+        setDashboardData: (state, data) => {
+            state.dashboard.data = data;
+        },
         setSurveysLoading(state, loading){
             state.surveys.loading = loading;
         },
