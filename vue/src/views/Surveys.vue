@@ -22,8 +22,24 @@
         </div>
       </template>
 
-      <div v-if="surveys.loading" class="flex justify-center">Loading...</div>
+      <div v-if="surveys.loading" class="flex justify-center h-max z-50">Loading...
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          class="h-6 w-6 animate-spin" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor" 
+          stroke-width="2"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+        </svg>
+      </div>
+      
       <div v-else>
+        <div v-if="surveys.data.length === 0" class="flex justify-center">
+          <NoneData>
+          </NoneData>
+        </div>
         <div class="grid grid-cols-1 gap-3 mt-4 sm:grid-cols-2 md:grid-cols-3">
             <SurveyListItem 
               v-for="(survey, ind) in surveys.data"
@@ -34,7 +50,10 @@
               @delete="deleteSurvey(survey)"
             />
         </div>
-        <div class="flex justify-center mt-5">
+        <div 
+          v-if="surveys.data.length !== 0"
+          class="flex justify-center mt-5"
+        >
           <nav
             class="relative z-0 inline-flex justify-center rounded-md shadow-sm -space-x-px"
             aria-label="Pagination"
@@ -67,6 +86,7 @@ import PageComponent from '../components/PageComponent.vue';
 import store from '../store';
 import { computed } from 'vue';
 import SurveyListItem from '../components/SurveyListItem.vue';
+import NoneData from '../components/NoneData.vue';
 
 const surveys = computed(() => {
   return store.state.surveys;

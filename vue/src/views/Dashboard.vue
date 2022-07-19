@@ -1,6 +1,17 @@
 <template>
   <PageComponent title="Dashboard">
-    <div v-if="loading" class="flex justify-center">Loading...</div>
+    <div v-if="loading" class="flex justify-center">Loading...
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          class="h-6 w-6 animate-spin" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor" 
+          stroke-width="2"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+        </svg>
+    </div>
     <div
       v-else 
       class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 text-gray-700"
@@ -123,8 +134,10 @@
 
 <script setup>
 import PageComponent from '../components/PageComponent.vue';
+import NonData from '../components/NoneData.vue';
 import { useStore } from 'vuex';
 import {computed} from 'vue';
+import NoneData from '../components/NoneData.vue';
 
 const store = useStore();
 

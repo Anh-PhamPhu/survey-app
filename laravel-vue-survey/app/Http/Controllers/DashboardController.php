@@ -33,7 +33,7 @@ class DashboardController extends Controller
             ->orderBy('end_date', 'DESC')
             ->limit(5)
             ->getModels('survey_answers.*');
-
+        
         return [
             'totalSurveys' => $total,
             'latestSurvey' => $latest ? new SurveyResourceDashboard($latest) : null,
